@@ -1,10 +1,13 @@
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 
 const Navbar = () => {
-    const [showMenu, setShowMenu] = useState(false);
 
+    const token = localStorage.getItem("token");
+    const [showMenu, setShowMenu] = useState(false);
+    const Navigate = useNavigate();
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
@@ -13,6 +16,10 @@ const Navbar = () => {
         setShowMenu(false);
     };
 
+    const logout = () => {
+        localStorage.clear();
+        Navigate("/");
+    }
     return (
         <nav className="flex justify-between items-center bg-white p-2">
             <div className="flex items-center">
@@ -20,9 +27,18 @@ const Navbar = () => {
             </div>
             <div className="hidden md:flex space-x-4 items-center">
                 <Link to="/" onClick={closeMenu} className='font-poppins'>Home</Link>
-                <Link to="/login" onClick={closeMenu}  className='font-poppins'>Login</Link>
-                <Link to="/register" onClick={closeMenu} className='font-poppins'>Register</Link>
-                <Link to="/dashboard" onClick={closeMenu} className='font-poppins'>Dashboard</Link>
+                {!token && (
+                    <>
+                        <Link to="/login" onClick={closeMenu} className='font-poppins'>Login</Link>
+                        <Link to="/register" onClick={closeMenu} className='font-poppins'>Register</Link>
+                    </>
+                )}
+                {token && (
+                    <>
+                        <Link to="/dashboard" onClick={closeMenu} className='font-poppins'>Dashboard</Link>
+                        <button onClick={logout} className="font-poppins">Logout</button>
+                    </>
+                )}
             </div>
             <div className="md:hidden">
                 <FaBars className="text-black text-2xl" onClick={toggleMenu} />
@@ -30,9 +46,18 @@ const Navbar = () => {
             {showMenu && (
                 <div className="md:hidden absolute top-16 right-0 bg-transparent p-4">
                     <Link to="/" className="block mb-2 font-poppins" onClick={closeMenu}>Home</Link>
-                    <Link to="/login" className="block mb-2 font-poppins" onClick={closeMenu}>Login</Link>
-                    <Link to="/register" className="block mb-2 font-poppins" onClick={closeMenu}>Register</Link>
-                    <Link to="/dashboard" className="block mb-2 font-poppins" onClick={closeMenu}>Dashboard</Link>
+                    {!token && (
+                        <>
+                            <Link to="/login" className="block mb-2 font-poppins" onClick={closeMenu}>Login</Link>
+                            <Link to="/register" className="block mb-2 font-poppins" onClick={closeMenu}>Register</Link>
+                        </>
+                    )}
+                    {token && (
+                        <>
+                            <Link to="/dashboard" className="block mb-2 font-poppins" onClick={closeMenu}>Dashboard</Link>
+                            <button onClick={logout} className="block mb-2 font-poppins">Logout</button>
+                        </>
+                    )}
                 </div>
             )}
         </nav>

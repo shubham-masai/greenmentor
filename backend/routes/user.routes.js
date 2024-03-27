@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require('dotenv').config()
 const userRouter = express.Router();
-
+const ProfileModel = require("../model/profile.model");
 userRouter.post("/register", async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -13,12 +13,12 @@ userRouter.post("/register", async (req, res) => {
             return res.status(400).send({ msg: "All fields are required" });
         }
 
-       
+
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
             return res.status(400).send({ msg: "Email is already registered." });
         }
-       
+
         bcrypt.hash(password, 5, async (err, hash) => {
             if (err) {
                 res.status(400).send({ msg: err.message });
@@ -26,7 +26,15 @@ userRouter.post("/register", async (req, res) => {
             else {
                 const user = new UserModel({ username, email, password: hash });
                 await user.save();
+
+                const profile = new ProfileModel({
+                    user: user._id,
+                    email: user.email,
+                    name: user.username
+                });
+                await profile.save();
                 const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '5h' });
+
                 res.status(200).send({ token, msg: "User created successfully" });
             }
         })
@@ -39,8 +47,8 @@ userRouter.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if(!email || !password){
-            return res.status(400).send({msg:"Email and password required"})
+        if (!email || !password) {
+            return res.status(400).send({ msg: "Email and password required" })
         }
         const user = await UserModel.findOne({ email });
         if (!user) {

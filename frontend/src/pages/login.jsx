@@ -4,6 +4,7 @@ import { userLogin } from '../redux/user/action';
 import { Link,useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CLEAR_MSG } from '../redux/dashboard/actionType';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,9 +22,14 @@ const Login = () => {
     useEffect(() => {
         if (msg) {
             if (token) {
-                toast.success(msg, { autoClose: 1000, onClose: () => Navigate('/dashboard') });
+                toast.success(msg, { autoClose: 1000, onClose: () => {
+                    dispatch({ type: CLEAR_MSG });
+                    Navigate('/dashboard')
+                } });
             } else {
-                toast.error(msg, { autoClose: 1000 });
+                toast.error(msg, { autoClose: 1000 , onClose: () => {
+                    dispatch({ type: CLEAR_MSG });
+                }});
             }
         }
     }, [msg, token]);

@@ -12,15 +12,15 @@ taskRouter.post("/create", async (req, res) => {
         const { title, description } = req.body;
         const userId = req.userId;
         if (!title || !description || !userId) {
-            return res.status(400).json({ error: 'Title and description are required fields.' });
+            return res.status(400).send({ msg: 'Title and description are required fields.' });
         }
 
         const newTask = new TaskModel({ title, description, user: userId });
         await newTask.save();
-        res.status(201).json({ msg: 'Task created successfully', newTask });
+        res.status(201).send({ msg: 'Task created successfully', newTask });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).send({ error: 'Internal Server Error' });
     }
 });
 
@@ -44,7 +44,7 @@ taskRouter.put("/:id", async (req, res) => {
         const { title, description } = req.body;
         const userId = req.userId;
         if (!title || !description || !userId) {
-            return res.status(400).json({ error: 'Title and description are required fields.' });
+            return res.status(400).send({ msg: 'Title and description are required fields.' });
         }
         const updatedTask = await TaskModel.findOneAndUpdate(
             { _id: req.params.id, user: userId },
@@ -62,6 +62,26 @@ taskRouter.put("/:id", async (req, res) => {
         res.status(500).send({ msg: "Internal Server Error" });
     }
 });
+
+// Route for updating task status by ID (toggle complete/incomplete)
+taskRouter.put("/:id/status", async (req, res) => {
+    try {
+        const userId = req.userId;
+        const task = await TaskModel.findOne({ _id: req.params.id, user: userId });
+
+        if (!task) {
+            return res.status(404).send({ msg: "Task not found or unauthorized" });
+        }
+
+        task.status = !task.status;
+        const updatedTask = await task.save();
+        res.status(200).send(updatedTask);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ msg: "Internal Server Error" });
+    }
+});
+
 
 // Route for deleting a task by ID
 taskRouter.delete("/:id", async (req, res) => {
