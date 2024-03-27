@@ -11,8 +11,8 @@ import {
 } from './actionType';
 
 import axios from "axios"
-const URL = "https://todobackend-omega.vercel.app/task/"
-const URL1 = "https://todobackend-omega.vercel.app/profile/"
+const URL = "https://todobackend-ruddy.vercel.app/task/"
+const URL1 = "https://todobackend-ruddy.vercel.app/profile/"
 const token = localStorage.getItem("token");
 
 export const getAllTasks = () => async (dispatch) => {

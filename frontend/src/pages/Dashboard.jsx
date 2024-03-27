@@ -8,12 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CLEAR_MSG } from "../redux/dashboard/actionType"
 import EditProfileModal from "../components/EditProfileModal";
 const Dashboard = () => {
-    const username = "User";
 
     const [showModal, setShowModal] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
-
-
     const { isLoading, isError, tasks, msg, userData } = useSelector((store) => {
         return {
             isLoading: store.taskReducer.isLoading,
@@ -27,10 +24,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getUserData());
-    }, [])
-    useEffect(() => {
         dispatch(getAllTasks());
-    }, [])
+    }, [dispatch]);
 
 
     useEffect(() => {
@@ -62,11 +57,10 @@ const Dashboard = () => {
         setShowProfileModal(false);
     };
 
-
     return (
         <div className=" mx-auto">
             <div className="flex justify-between items-center mb-4 bg-customLogo py-[2rem] pr-[1rem] rounded-lg p-2 overflow-hidden">
-                <h2 className="text-2xl font-semibold">Welcome back, {userData?.name}!</h2>
+                <h2 className="text-2xl font-semibold">Welcome back, <span>{userData ? userData.name : null}</span>!</h2>
                 <div className="flex items-center">
                     {userData?.profileUrl && (
                         <img src={userData.profileUrl} alt="Profile" className="w-10 h-10 rounded-full mr-2" />
@@ -76,10 +70,6 @@ const Dashboard = () => {
                     </button>
                 </div>
             </div>
-
-
-
-            {/* profile below data */}
 
             <div className="flex justify-between">
                 <div>
@@ -97,7 +87,7 @@ const Dashboard = () => {
                 {tasks && tasks.length > 0 ? (
                     tasks.map((task, index) => (
                         <TaskCard
-                            key={task._id}  // here
+                            key={task._id}
                             {...task}
                             isEven={index % 2 === 0}
                         />
@@ -107,10 +97,11 @@ const Dashboard = () => {
                 )}
             </div>
             {showModal && <TaskCreateModal onClose={() => setShowModal(false)} onSubmit={handleCreateTask} />}
-            {showProfileModal && <EditProfileModal  userData={userData} onClose={handleCloseProfileModal} onSave={handleSaveProfile} />}
+            {showProfileModal && <EditProfileModal userData={userData} onClose={handleCloseProfileModal} onSave={handleSaveProfile} />}
             <ToastContainer />
         </div>
     );
 }
+
 
 export default Dashboard;

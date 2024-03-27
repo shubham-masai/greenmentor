@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from '../pages/login'
 import Register from '../pages/Register'
 import Home from '../pages/Home'
@@ -13,6 +13,7 @@ const AllRoutes = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
     )
 }

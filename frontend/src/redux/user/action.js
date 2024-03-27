@@ -9,7 +9,7 @@ import {
 } from "./actionType"
 
 import axios from "axios"
-const URL = "https://todoassignment-omega.vercel.app/user/"
+const URL = "https://todobackend-ruddy.vercel.app/user/"
 
 export const userLogin = (obj) => async (dispatch) => {
     try {
