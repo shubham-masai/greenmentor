@@ -6,9 +6,10 @@ import {
     UPDATE_TASK_SUCCESS,
     DELETE_TASK_SUCCESS,
     TASK_CREATED,
-    CLEAR_MSG,
+    DAHSBOARD_CLEAR_MSG,
     GET_USER_DATA_SUCCESS,
-    UPDATE_USER_DATA_SUCCESS
+    UPDATE_USER_DATA_SUCCESS,
+    RESET_STATE
 } from './actionType';
 
 const initialState = {
@@ -43,15 +44,18 @@ export const taskReducer = (state = initialState, { type, payload }) => {
         case DELETE_TASK_SUCCESS:
             return { ...state, tasks: state.tasks.filter(task => task._id !== payload.id), msg: payload.msg };
 
-        case CLEAR_MSG:
+        case DAHSBOARD_CLEAR_MSG:
             return { ...state, msg: null }
-
 
         case GET_USER_DATA_SUCCESS:
             return { ...state, isLoading: false, userData: payload };
 
         case UPDATE_USER_DATA_SUCCESS:
             return { ...state, userData: payload };
+
+        case RESET_STATE:
+
+            return { ...state, userData: null }
         default:
             return state;
     }

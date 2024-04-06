@@ -5,10 +5,11 @@ import TaskCard from '../components/taskCard';
 import TaskCreateModal from '../components/TaskCreateModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CLEAR_MSG } from "../redux/dashboard/actionType"
+import { DAHSBOARD_CLEAR_MSG } from "../redux/dashboard/actionType"
 import EditProfileModal from "../components/EditProfileModal";
 const Dashboard = () => {
 
+    const token = localStorage.getItem("token");
     const [showModal, setShowModal] = useState(false);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const { isLoading, isError, tasks, msg, userData } = useSelector((store) => {
@@ -23,24 +24,23 @@ const Dashboard = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getUserData());
-        dispatch(getAllTasks());
-    }, [dispatch]);
-
+        dispatch(getUserData(token));
+        dispatch(getAllTasks(token));
+    }, []);
 
     useEffect(() => {
         if (msg) {
             toast.info(msg, {
                 autoClose: 500,
                 onClose: () => {
-                    dispatch({ type: CLEAR_MSG });
+                    dispatch({ type: DAHSBOARD_CLEAR_MSG });
                 }
             });
         }
     }, [msg]);
 
     const handleCreateTask = (taskData) => {
-        dispatch(createTask(taskData));
+        dispatch(createTask(taskData,token));
     };
 
 
@@ -53,7 +53,7 @@ const Dashboard = () => {
     };
 
     const handleSaveProfile = (editedProfile) => {
-        dispatch(updateUserData(editedProfile));
+        dispatch(updateUserData(editedProfile,token));
         setShowProfileModal(false);
     };
 

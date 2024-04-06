@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { userRegister } from '../redux/user/action';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { USE_MSG_CLEAR } from '../redux/user/actionType';
 const Register = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -23,16 +24,26 @@ const Register = () => {
     useEffect(() => {
         if (msg) {
             if (token) {
-                toast.success(msg, { autoClose: 1000, onClose: () => Navigate('/dashboard') });
+                toast.success(msg, {
+                    autoClose: 500, onClose: () => {
+                        dispatch({ type: USE_MSG_CLEAR });
+                        Navigate("/dashboard");
+                    }
+                });
             } else {
-                toast.error(msg, { autoClose: 1000 });
+                toast.error(msg, {
+                    autoClose: 1000, onClose: () => {
+                        dispatch({ type: USE_MSG_CLEAR });
+                    }
+                });
             }
         }
     }, [msg, token]);
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let obj = { username, email, password };
-        dispatch(userRegister(obj));
+        await dispatch(userRegister(obj));
         setEmail("");
         setUsername("");
         setPassword("");

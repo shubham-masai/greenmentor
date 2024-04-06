@@ -5,7 +5,6 @@ const auth = require('../middleware/auth.middleware');
 
 profileRouter.get('/', auth, async (req, res) => {
     const userId = req.userId; 
-
     try {
         const profile = await ProfileModel.findOne({ user: userId });
         if (!profile) {
@@ -21,16 +20,16 @@ profileRouter.get('/', auth, async (req, res) => {
 // Route to update a user's profile
 profileRouter.put('/', auth, async (req, res) => {
     const userId = req.userId;
-    const { profileUrl, mobileNo, gender } = req.body;
+    const { name, profileUrl, mobileNo, gender } = req.body;
 
     try {
 
-        if(!profileUrl || !mobileNo || !gender){
+        if(!profileUrl || !mobileNo || !gender || !name){
             return res.status(400).send({msg:"All fields are require"})
         }
         const updatedProfile = await ProfileModel.findOneAndUpdate(
             { user: userId },
-            { profileUrl, mobileNo, gender },
+            { profileUrl, mobileNo, gender, name },
             { new: true } 
         );
 

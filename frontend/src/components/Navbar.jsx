@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
-import { CLEAR_MSG } from '../redux/dashboard/actionType';
+import { RESET_STATE } from '../redux/dashboard/actionType';
 import { useDispatch } from 'react-redux';
+import { USE_MSG_CLEAR } from '../redux/user/actionType';
 
 const Navbar = () => {
     const token = localStorage.getItem("token") || null;
@@ -19,8 +20,9 @@ const Navbar = () => {
     };
 
     const logout = async () => {
+        await dispatch({ type: RESET_STATE });
+        await dispatch({ type: USE_MSG_CLEAR });
         await localStorage.clear();
-        await dispatch({ type: CLEAR_MSG });
         Navigate("/");
     }
     return (

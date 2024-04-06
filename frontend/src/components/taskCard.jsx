@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { deleteTask, editTask, editTaskStatus } from '../redux/dashboard/action';
 
 const TaskCard = ({ _id, title, description, createdAt, updatedAt, status, isEven }) => {
+    const token = localStorage.getItem("token");
     const [showDescription, setShowDescription] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
     const [editedDescription, setEditedDescription] = useState(description);
@@ -27,16 +28,16 @@ const TaskCard = ({ _id, title, description, createdAt, updatedAt, status, isEve
             title: editedTitle,
             description: editedDescription
         }
-        dispatch(editTask(_id, obj));
+        dispatch(editTask(_id, obj,token));
         setEditMode(false);
     };
 
     const toggleStatus = () => {
-        dispatch(editTaskStatus(_id));
+        dispatch(editTaskStatus(_id,token));
     }
 
     const handleDelete = () => {
-        dispatch(deleteTask(_id));
+        dispatch(deleteTask(_id,token));
     }
     return (
         <div className={`border p-4 mb-4 rounded-lg ${isEven ? 'bg-customLogo text-white' : 'bg-gray-200 text-black'}`}>

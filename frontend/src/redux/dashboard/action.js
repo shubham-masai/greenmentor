@@ -13,9 +13,9 @@ import {
 import axios from "axios"
 const URL = "https://todobackend-ruddy.vercel.app/task/"
 const URL1 = "https://todobackend-ruddy.vercel.app/profile/"
-const token = localStorage.getItem("token");
 
-export const getAllTasks = () => async (dispatch) => {
+ 
+export const getAllTasks = (token) => async (dispatch) => {
     try {
 
         dispatch({ type: GET_REQUEST });
@@ -30,7 +30,7 @@ export const getAllTasks = () => async (dispatch) => {
     }
 }
 
-export const createTask = (obj) => async (dispatch) => {
+export const createTask = (obj, token) => async (dispatch) => {
     try {
 
         dispatch({ type: GET_REQUEST });
@@ -46,12 +46,11 @@ export const createTask = (obj) => async (dispatch) => {
             }
         })
     } catch (error) {
-        console.log("here error", error.response.data.msg)
         dispatch({ type: GET_FAILURE, payload: error.response.data.msg });
     }
 }
 
-export const editTask = (id, obj) => async (dispatch) => {
+export const editTask = (id, obj, token) => async (dispatch) => {
     try {
 
         dispatch({ type: GET_REQUEST });
@@ -67,9 +66,7 @@ export const editTask = (id, obj) => async (dispatch) => {
     }
 }
 
-
-
-export const editTaskStatus = (id) => async (dispatch) => {
+export const editTaskStatus = (id,token) => async (dispatch) => {
     try {
         dispatch({ type: GET_REQUEST });
         const res = await axios.put(`${URL}${id}/status`, null, {
@@ -81,12 +78,11 @@ export const editTaskStatus = (id) => async (dispatch) => {
             type: UPDATE_TASK_SUCCESS, payload: res.data
         })
     } catch (error) {
-        console.log(error.response.data.msg)
         dispatch({ type: GET_FAILURE, payload: error.response.data.msg });
     }
 }
 
-export const deleteTask = (id) => async (dispatch) => {
+export const deleteTask = (id,token) => async (dispatch) => {
     try {
         dispatch({ type: GET_REQUEST });
         const res = await axios.delete(`${URL}${id}`, {
@@ -101,13 +97,12 @@ export const deleteTask = (id) => async (dispatch) => {
             }
         })
     } catch (error) {
-        console.log(error.response.data.msg)
         dispatch({ type: GET_FAILURE, payload: error.response.data.msg });
     }
 }
 
 
-export const getUserData = () => async (dispatch) => {
+export const getUserData = (token) => async (dispatch) => {
     try {
         dispatch({ type: GET_REQUEST })
         const res = await axios.get(`${URL1}`, {
@@ -117,20 +112,19 @@ export const getUserData = () => async (dispatch) => {
         })
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: res.data })
     } catch (error) {
-
         dispatch({ type: GET_FAILURE, payload: error.response.data.msg });
     }
 }
 
-export const updateUserData = (obj) => async (dispatch) => {
+export const updateUserData = (obj, token) => async (dispatch) => {
     try {
         dispatch({ type: GET_REQUEST })
-        const res = await axios.put(`${URL1}`,obj, {
+        const res = await axios.put(`${URL1}`, obj, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         })
-        dispatch({ type:  UPDATE_USER_DATA_SUCCESS, payload: res.data })
+        dispatch({ type: UPDATE_USER_DATA_SUCCESS, payload: res.data })
     } catch (error) {
         dispatch({ type: GET_FAILURE, payload: error.response.data.msg });
     }

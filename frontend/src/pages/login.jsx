@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { userLogin } from '../redux/user/action';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CLEAR_MSG } from '../redux/dashboard/actionType';
+import { USE_MSG_CLEAR } from '../redux/user/actionType';
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,23 +23,28 @@ const Login = () => {
     useEffect(() => {
         if (msg) {
             if (token) {
-                toast.success(msg, { autoClose: 1000, onClose: () => {
-                    dispatch({ type: CLEAR_MSG });
-                    Navigate('/dashboard')
-                } });
+                toast.success(msg, {
+                    autoClose: 500, onClose: () => {
+                        dispatch({ type: USE_MSG_CLEAR });
+                        Navigate("/dashboard");
+                    }
+                });
             } else {
-                toast.error(msg, { autoClose: 1000 , onClose: () => {
-                    dispatch({ type: CLEAR_MSG });
-                }});
+                toast.error(msg, {
+                    autoClose: 1000, onClose: () => {
+                        dispatch({ type: USE_MSG_CLEAR });
+                    }
+                });
             }
         }
     }, [msg, token]);
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let obj = {
             email, password
         }
-        dispatch(userLogin(obj));
+        await dispatch(userLogin(obj));
         setEmail("");
         setPassword("");
     };

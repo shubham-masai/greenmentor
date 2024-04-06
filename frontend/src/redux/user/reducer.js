@@ -6,7 +6,8 @@ import {
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
     USER_REGISTER_FAIL,
-    USER_LOGOUT
+    USER_LOGOUT,
+    USE_MSG_CLEAR
 } from "./actionType"
 
 const initialState = {
@@ -18,22 +19,30 @@ const initialState = {
 
 export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
+
         case USER_LOGIN_REQUEST:
             return { ...state, isLoading: true, isError: false };
+
         case USER_LOGIN_SUCCESS:
             return { ...state, isLoading: false, isError: false, msg: payload.msg, token: payload.token }
+
         case USER_LOGIN_FAIL:
             return { ...state, isLoading: false, isError: true, msg: payload }
 
         case USER_REGISTER_REQUEST:
             return { ...state, isLoading: true, isError: false };
+
         case USER_REGISTER_SUCCESS:
             return { ...state, isLoading: false, isError: false, msg: payload.msg, token: payload.token }
+
         case USER_REGISTER_FAIL:
             return { ...state, isLoading: false, isError: true, msg: payload }
 
         case USER_LOGOUT:
             return { ...state, token: null };
+
+        case USE_MSG_CLEAR:
+            return { ...state, msg: null }
 
         default: return state
     }
