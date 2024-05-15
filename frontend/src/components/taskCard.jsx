@@ -28,16 +28,16 @@ const TaskCard = ({ _id, title, description, createdAt, updatedAt, status, isEve
             title: editedTitle,
             description: editedDescription
         }
-        dispatch(editTask(_id, obj,token));
+        dispatch(editTask(_id, obj, token));
         setEditMode(false);
     };
 
     const toggleStatus = () => {
-        dispatch(editTaskStatus(_id,token));
+        dispatch(editTaskStatus(_id, token));
     }
 
     const handleDelete = () => {
-        dispatch(deleteTask(_id,token));
+        dispatch(deleteTask(_id, token));
     }
     return (
         <div className={`border p-4 mb-4 rounded-lg ${isEven ? 'bg-customLogo text-white' : 'bg-gray-200 text-black'}`}>
@@ -97,10 +97,16 @@ const TaskCard = ({ _id, title, description, createdAt, updatedAt, status, isEve
                             </button>
                         </>
                     ) : (
-                        <button onClick={handleEdit} className="text-xs px-2 py-1 bg-yellow-500 text-white rounded-md mb-2">
-                            Edit
-                        </button>
+                        <>
+                            {!status && (
+                                <button onClick={handleEdit} className="text-xs px-2 py-1 bg-yellow-500 text-white rounded-md mb-2">
+                                    Edit
+                                </button>
+                            )}
+                        </>
                     )}
+
+
                     <button className="text-xs px-2 py-1 bg-red-500 text-white rounded-md" onClick={handleDelete}>
                         Delete
                     </button>
