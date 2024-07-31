@@ -1,0 +1,54 @@
+[33mcommit 0768b90d154a6dc87089c950dd99cdbd5a4f0f92[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: shubham-masai <shubhammasai03@gmail.com>
+Date:   Wed Jul 31 16:57:19 2024 +0530
+
+    .
+
+[33mcommit 6baf76aeb5b152177e133fffe01b080469f590a3[m
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Wed May 15 17:28:12 2024 +0530
+
+    toggle status update
+
+[33mcommit d0b8d6e0fcffc8caf575032814306d1bb578bb2b[m
+Merge: 6ee3f65 443900c
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Sat Apr 6 16:58:36 2024 +0530
+
+    Merge branch 'main' of https://github.com/shubham-masai/greenmentor
+
+[33mcommit 6ee3f65e642dd75ca50ad4ea19b354db0c794be8[m
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Sat Apr 6 16:54:53 2024 +0530
+
+    update
+
+[33mcommit 443900ca5b00cd54a4551d2a99a5a8e50ca904dc[m
+Author: Shubham Jayswal <130532573+shubham-masai@users.noreply.github.com>
+Date:   Fri Mar 29 11:54:41 2024 +0530
+
+    Delete backend/.env
+
+[33mcommit c6b567b356eb3e2c8fc1215c19d517a3e932d5ef[m
+Author: Shubham Jayswal <130532573+shubham-masai@users.noreply.github.com>
+Date:   Thu Mar 28 12:43:40 2024 +0530
+
+    Update README.md
+
+[33mcommit 83d8387a278b5e79d2ad3c81787f09f095a592e7[m
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Thu Mar 28 02:26:53 2024 +0530
+
+    backend re-deploy and url updated
+
+[33mcommit 54961a06a0dcf6dd9a219a7920c91b89ffcb153c[m
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Thu Mar 28 00:31:03 2024 +0530
+
+    Updated Dashboard component with user profile integration
+
+[33mcommit 11e4b1f12079a362191b535db71d1418f6ef65c4[m
+Author: Shubham Jayswal <shubhammasai03@gmail.com>
+Date:   Wed Mar 27 17:46:41 2024 +0530
+
+    backend complete, in frontend login and signup
